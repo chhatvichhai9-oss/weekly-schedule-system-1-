@@ -478,48 +478,72 @@
         renderAttendanceTable();
     }
     // បង្កើតតារាងកាលវិភាគរួមសម្រាប់គ្រប់ថ្នាក់ក្នុងមួយសប្តាហ៍
-    function renderMasterSchedule() {
+function renderMasterSchedule() {
         const outer = document.getElementById('master-schedule-outer');
         const schName = document.getElementById('schoolName').value;
-        // ចម្រាញ់យកតែទិន្នន័យណាដែលជា "គ្រូបង្រៀន" ឬ "គ្រូបន្ទុកថ្នាក់" (ផ្អែកលើតួនាទីដែលមានពាក្យថា "គ្រូ")
-        const filteredEntries = entries.filter(e => e.role.includes("គ្រូ"));
+        const filteredEntries = entries.filter(e => e.role.includes("គ្រូ") || e.role === ""); 
         const uniqueClasses = [...new Set(entries.map(e => e.className))].sort();
+        
         if (uniqueClasses.length === 0) { outer.innerHTML = ""; return; }
-        // បង្កើតតារាងម៉ាទ្រីសសម្រាប់បង្ហាញថ្នាក់នីមួយៗមានម៉ោងបង្រៀននៅពេលណាខ្លះក្នុងមួយសប្តាហ៍
+
+        // --- ផ្នែកខាងលើ៖ តារាង Master Schedule (រក្សាទុកដូចដើម) ---
         let html = `<div class="master-container"><div class="header-top"><div class="school-side"><div style="font-family:'Khmer OS Muol Light'; font-size:11px;">${schName}</div></div><div class="nation-side"><div class="nation-title" style="font-size:11px;">ព្រះរាជាណាចក្រកម្ពុជា</div><div class="nation-motto" style="font-size:9px;">ជាតិ សាសនា ព្រះមហាក្សត្រ</div></div></div><div class="master-title">កាលវិភាគរួមគ្រប់ថ្នាក់ (Master Schedule)</div><table class="master-table"><thead><tr><th rowspan="2" style="background:#34495e;">ថ្នាក់</th>`;
         daysKh.forEach(d => html += `<th colspan="${allSlots.length}" style="border-left:1px solid white;">ថ្ងៃ${d}</th>`);
-        html += `<th rowspan="2" class="total-col" style="border-left:1px solid white;">សរុបម៉ោង</th></tr><tr>`;
+        html += `<th rowspan="2" class="total-col" style="border-left:1px solid white;">សរុប</th></tr><tr>`;
         days.forEach(() => allSlots.forEach(t => html += `<th style="font-size:6px; background:#5d6d7e;">${t.split(' ')[0]}</th>`));
         html += `</tr></thead><tbody>`;
-        // សម្រាប់គ្រប់ថ្នាក់ បង្ហាញម៉ោងបង្រៀននៅពេលណាខ្លះក្នុងមួយសប្តាហ៍ និងគណនាសរុបម៉ោងបង្រៀនសម្រាប់ថ្នាក់នោះ
+        
         uniqueClasses.forEach(cName => {
             let weeklyTotal = 0; html += `<tr><td style="font-weight:bold; background:#f2f4f4;">${cName}</td>`;
             days.forEach(day => { 
                 allSlots.forEach(slot => { 
-                    //const match = entries.find(e => e.className === cName && e.day === day && e.time === slot);
                     const match = filteredEntries.find(e => e.className === cName && e.day === day && e.time === slot);
                     if(match) { html += `<td>${match.sub}</td>`; weeklyTotal++; } else { html += `<td></td>`; } 
                 }); 
             });
-            // បន្ថែមជួរថ្មីសម្រាប់បង្ហាញសរុបម៉ោងបង្រៀនសម្រាប់ថ្នាក់នោះ
             html += `<td style="font-weight:bold; background:#eaeded;">${weeklyTotal}</td></tr>`;
         });
-        // បន្ថែមជួរថ្មីសម្រាប់បង្ហាញសរុបម៉ោងបង្រៀនសម្រាប់គ្រប់ថ្នាក់ និងសរុបម៉ោងបង្រៀនសម្រាប់គ្រូទាំងអស់នៅចុងតារាង
         html += `</tbody></table>`;
-        // បង្កើតសង្ខេបសម្រាប់បង្ហាញសរុបម៉ោងបង្រៀនសម្រាប់គ្រូទាំងអស់ និងមុខវិជ្ជាដែលគ្រូនីមួយៗបានបង្រៀន
+
+        // --- ផ្នែកខាងក្រោម៖ បញ្ជីសរុបម៉ោងបង្រៀនរបស់គ្រូ (បន្ថែមការបូកតាមមុខវិជ្ជា) ---
         const teacherStats = {};
         entries.forEach(e => {
-            if (!teacherStats[e.name]) teacherStats[e.name] = { total: 0, gender: e.gender || "---", subjects: new Set(), classes: new Set() };
+            if (!teacherStats[e.name]) {
+                teacherStats[e.name] = { 
+                    total: 0, 
+                    gender: e.gender || "---", 
+                    subDetail: {}, // សម្រាប់ផ្ទុក៖ { "គណិតវិទ្យា": 5, "រូបវិទ្យា": 2 }
+                    classes: new Set() 
+                };
+            }
             teacherStats[e.name].total++;
-            teacherStats[e.name].subjects.add(e.sub);
             teacherStats[e.name].classes.add(e.className);
+            
+            // បូកសរុបម៉ោងតាមមុខវិជ្ជា
+            if (!teacherStats[e.name].subDetail[e.sub]) {
+                teacherStats[e.name].subDetail[e.sub] = 0;
+            }
+            teacherStats[e.name].subDetail[e.sub]++;
         });
-        // បន្ថែមផ្នែកសង្ខេបសម្រាប់បង្ហាញសរុបម៉ោងបង្រៀនសម្រាប់គ្រូទាំងអស់ និងមុខវិជ្ជាដែលគ្រូនីមួយៗបានបង្រៀន
+
         html += `<div class="summary-section" style="margin-top:15px;"><div class="summary-header">បញ្ជីសរុបម៉ោងបង្រៀនរបស់គ្រូ (Teacher Teaching Hours)</div><div class="summary-grid">`;
+        
         for (let tName in teacherStats) {
-            html += `<div class="summary-item"><strong>${tName} (${teacherStats[tName].gender})</strong><br>សរុប៖ ${teacherStats[tName].total} ម៉ោង<br><span style="font-size:9px; color:#1a5276; font-weight:bold;">ថ្នាក់៖ ${Array.from(teacherStats[tName].classes).sort().join(', ')}</span><br><span style="font-size:9px; color:#555;">[ ${Array.from(teacherStats[tName].subjects).join(', ')} ]</span></div>`;
+            // បម្លែង Object មុខវិជ្ជា ទៅជាអក្សរសម្រាប់បង្ហាញ (ឧ. គណិតវិទ្យា: ៥ម៉ោង, រូបវិទ្យា: ២ម៉ោង)
+            const subListText = Object.entries(teacherStats[tName].subDetail)
+                .map(([subName, count]) => `${subName}: ${count}ម៉ោង`)
+                .join(', ');
+
+            html += `
+                <div class="summary-item">
+                    <strong>${tName} (${teacherStats[tName].gender})</strong><br>
+                    <span style="color:red; font-weight:bold;">សរុប៖ ${teacherStats[tName].total} ម៉ោង</span><br>
+                    <span style="font-size:9px; color:#1a5276; font-weight:bold;">ថ្នាក់៖ ${Array.from(teacherStats[tName].classes).sort().join(', ')}</span><br>
+                    <span style="font-size:9px; color:#555;">[ ${subListText} ]</span>
+                </div>`;
         }
-        html += `</tbody></table></div>`;
+        
+        html += `</div></div></div>`;
         outer.innerHTML = html;
     }
     // បង្កើតតារាងវត្តមានសម្រាប់គ្រូទាំងអស់ក្នុងមួយសប្តាហ៍
