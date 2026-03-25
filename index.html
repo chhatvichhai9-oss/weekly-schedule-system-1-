@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Moul&family=Kantumruy+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+    /* ប្រើ Moul ជំនួស Khmer OS Muol Light */
+    h1, .muol-font {
+        font-family: 'Moul', serif;
+    }
+
+    /* ប្រើ Kantumruy Pro ជំនួស Khmer OS Content */
+    body, p {
+        font-family: 'Kantumruy Pro', sans-serif;
+    }
+</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ប្រព័ន្ធគ្រប់គ្រងកាលវិភាគសិក្សា - សរសេរដោយ៖លោកគ្រូ ឆាត វិឆៃ</title>
@@ -94,7 +109,7 @@
         .sig-box { text-align: center; width: 45%; }
         .sig-date-area { font-size: 10.5px; line-height: 1.5; }
         .sig-title { font-family: 'Khmer OS Muol Light'; font-size: 10.5px; margin-bottom: 10px; margin-top: 5px; }
-                /* គំលាតនៃឈ្មោះហត្ដលេខា */
+        /* គំលាតនៃឈ្មោះហត្ដលេខា */
         .sig-name { 
         font-family: 'Khmer OS Muol Light'; 
         font-size: 10.5px; 
@@ -139,10 +154,9 @@
         .attendance-table th:nth-child(10), .attendance-table td:nth-child(10) { width: 80px; } /* ហត្ថលេខា */
         .attendance-table th:nth-child(11), .attendance-table td:nth-child(11) { width: 80px; } /* ហត្ថលេខា */
         .attendance-table th:nth-child(12), .attendance-table td:nth-child(12) { width: 80px; } /* ហត្ថលេខា */
-        .attendance-table th:nth-child(13), .attendance-table td:nth-child(13) { width: 50px; } /* ហត្ថលេខា */
-        .attendance-table th:nth-child(14), .attendance-table td:nth-child(14) { width: 15px; } /* ច្ប */
-        .attendance-table th:nth-child(15), .attendance-table td:nth-child(15) { width: 15px; } /* អច្ប */
-        .attendance-table th:nth-child(16), .attendance-table td:nth-child(16) { width: 35px; } /* ផ្សេងៗ */
+        .attendance-table th:nth-child(13), .attendance-table td:nth-child(13) { width: 15px; } /* ច្ប */
+        .attendance-table th:nth-child(14), .attendance-table td:nth-child(14) { width: 15px; } /* អច្ប */
+        .attendance-table th:nth-child(15), .attendance-table td:nth-child(15) { width: 35px; } /* ផ្សេងៗ */
         
         /* កែសម្រួលពណ៌ប្រផេះសម្រាប់ម៉ោងទំនេរ */
         .free-slot { background-color: #d1d1d1 !important; } 
@@ -322,7 +336,7 @@
 </div>
 <script>
     let entries = JSON.parse(localStorage.getItem('teacherTasks')) || [];
-    const morningSlots = ["07:00 - 08:00", "08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00"];
+    const morningSlots = ["07:00 - 08:00", "08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00"];
     const afternoonSlots = ["13:00 - 14:00", "14:00 - 15:00", "15:00 - 16:00", "16:00 - 17:00"];
     const allSlots = [...morningSlots, ...afternoonSlots];
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -545,8 +559,7 @@ function renderMasterSchedule() {
         
         html += `</div></div></div>`;
         outer.innerHTML = html;
-    }
-    // បង្កើតតារាងវត្តមានសម្រាប់គ្រូទាំងអស់ក្នុងមួយសប្តាហ៍
+    }    // បង្កើតតារាងវត្តមានសម្រាប់គ្រូទាំងអស់ក្នុងមួយសប្តាហ៍
     function renderAttendanceTable() {
         const container = document.getElementById('all-days-attendance-container');
         container.innerHTML = "";
@@ -575,7 +588,7 @@ function renderMasterSchedule() {
                 <div style="font-size: 12px; margin-top: 1px;">បញ្ជីសម្រង់វត្តមានប្រចាំថ្ងៃរបស់មន្ត្រីរាជការស៊ីវិលក្នុង ${document.getElementById('schoolName').value || "............................"}<br>
                 <div style="font-size: 12px; margin-top: 1px;">ថ្ងៃ${daysKh[index]} ទី...........ខែ....................ឆ្នាំ ២០.........</div>
             </div>
-            <div style="font-size: 10px; margin-top: -18px;"></h3><table class="attendance-table"><thead><tr><th rowspan="2">ល.រ</th><th rowspan="2" style="width:100px;">នាម-គោត្តនាម</th><th rowspan="2">ភេទ</th><th rowspan="2">តួនាទី</th><th colspan="5">ពេលព្រឹក</th><th colspan="4">ពេលល្ងាច</th><th colspan="2">អវត្ដមាន</th><th rowspan="2">ផ្សេងៗ</th></tr><tr><th>១</th><th>២</th><th>៣</th><th>៤</th><th>៥</th><th>៦</th><th>៧</th><th>៨</th><th>៩</th><th style="width: 20px;">ច្ប</th>  <th style="width: 20px;">អច្ប</th></tr></thead><tbody>`;
+            <div style="font-size: 10px; margin-top: -18px;"></h3><table class="attendance-table"><thead><tr><th rowspan="2">ល.រ</th><th rowspan="2" style="width:100px;">នាម-គោត្តនាម</th><th rowspan="2">ភេទ</th><th rowspan="2">តួនាទី</th><th colspan="4">ពេលព្រឹក</th><th colspan="4">ពេលល្ងាច</th><th colspan="2">អវត្ដមាន</th><th rowspan="2">ផ្សេងៗ</th></tr><tr><th>១</th><th>២</th><th>៣</th><th>៤</th><th>៥</th><th>៦</th><th>៧</th><th>៨</th><th style="width: 20px;">ច្ប</th>  <th style="width: 20px;">អច្ប</th></th></tr></thead><tbody>`;
                     
             // សម្រាប់គ្រប់គ្រូ បង្ហាញម៉ោងបង្រៀននៅពេលណាខ្លះក្នុងមួយសប្តាហ៍ និងកំណត់ពណ៌សម្រាប់កន្លែងដែលមានម៉ោងបង្រៀន (busy) និងកន្លែងដែលគ្មានម៉ោងបង្រៀន (free)
             teachers.forEach((tName, i) => {
@@ -583,7 +596,7 @@ function renderMasterSchedule() {
                 const role = tInfo.role || "";
                 const isTeacher = role.includes("គ្រូ");
                 html += `<tr>
-                <td>${i + 1}</td>
+                <td>${i + 1}</td>  
                 <td style="text-align:left; padding-left:5px;">${tName}</td>
                 <td>${tInfo.gender}</td>
                 <td>${role}</td>`;
@@ -667,7 +680,7 @@ function renderMasterSchedule() {
                 html += `</tr>`;
             });
             // បន្ថែមជួរថ្មីសម្រាប់បង្ហាញពេលសម្រាក និងពេលរសៀល
-            html += `<tr><td class="afternoon-break">12:00 - 13:00</td><td colspan="6" class="afternoon-break">សម្រាក / ពេលរសៀល</td></tr>`;
+            html += `<tr><td class="afternoon-break">11:00 - 13:00</td><td colspan="6" class="afternoon-break">សម្រាក / ពេលរសៀល</td></tr>`;
             // បន្ថែមជួរថ្មីសម្រាប់បង្ហាញម៉ោងបង្រៀននៅពេលរសៀល
             afternoonSlots.forEach(slot => {
                 html += `<tr><td style="font-weight:bold; background:#f9f9f9;">${slot}</td>`;
