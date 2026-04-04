@@ -359,6 +359,7 @@ function getKhmerDate(offsetDays = 0) {
         document.getElementById('chanDate').value = localStorage.getItem('chanDate') || "";
         document.getElementById('soriyaDate').value = localStorage.getItem('soriyaDate') || "";
         document.getElementById('directorName').value = localStorage.getItem('directorName') || "";
+        document.getElementById('ProvinceName').value = localStorage.getItem('ProvinceName') || "";
         renderLists(); 
         renderAll();
     };
@@ -388,7 +389,7 @@ function getKhmerDate(offsetDays = 0) {
         localStorage.setItem('chanDate', document.getElementById('chanDate').value);
         localStorage.setItem('soriyaDate', document.getElementById('soriyaDate').value);
         localStorage.setItem('directorName', document.getElementById('directorName').value);
-        
+        localStorage.setItem('ProvinceName', document.getElementById('ProvinceName').value);
         // ប្តូរពណ៌ស៊ុមដើម្បីបញ្ជាក់ថាបានជ្រើសរើសរួច
         document.getElementById('schoolName').style.borderColor = sch ? "#bdc3c7" : "#e74c3c";
         renderAll();
