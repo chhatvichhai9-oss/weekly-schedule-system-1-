@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Moul&family=Kantumruy+Pro:wght@400;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ប្រព័ន្ធគ្រប់គ្រងកាលវិភាគសិក្សា - សរសេរដោយ៖លោកគ្រូ ឆាត វិឆៃ</title>
@@ -9,9 +12,9 @@
         /* កំណត់ទំហំ និងស្ពានសម្រាប់ការបោះពុម្ព */
         @page { size: auto; margin: 10mm 2mm 2mm 2mm; }
         /* កំណត់ពណ៌សម្រាប់ប្រធានបទ និងធាតុសំខាន់ៗនៅលើទំព័រ */
-        :root { --main-color: #2980b9; }
+        :root { --main-color: #ba1e1e; }
         /* សម្រាប់ស្ទីលទូទៅនៃទំព័រ និងកុងតឺន័រ */
-        body { font-family: 'Khmer OS Content', sans-serif; background-color: #f4f7f6; margin: 0; padding: 10px; }
+        body { font-family: 'Khmer OS Content', sans-serif; background-color: #52cfcf29; margin: 0; padding: 5px; }
         .container { max-width: 1800px; margin: auto; background: white; padding: 10px; border-radius: 4px; }
         /* សម្រាប់ក្បាលទំព័រដែលមានព័ត៌មានសាលា និងកាលបរិច្ឆេទ និងប្រធានបទ និងផ្នែកជ្រើសរើសពណ៌ */
         .header-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2px; padding-top: 2px; }
@@ -94,7 +97,7 @@
         .sig-box { text-align: center; width: 45%; }
         .sig-date-area { font-size: 10.5px; line-height: 1.5; }
         .sig-title { font-family: 'Khmer OS Muol Light'; font-size: 10.5px; margin-bottom: 10px; margin-top: 5px; }
-                /* គំលាតនៃឈ្មោះហត្ដលេខា */
+        /* គំលាតនៃឈ្មោះហត្ដលេខា */
         .sig-name { 
         font-family: 'Khmer OS Muol Light'; 
         font-size: 10.5px; 
@@ -139,10 +142,9 @@
         .attendance-table th:nth-child(10), .attendance-table td:nth-child(10) { width: 80px; } /* ហត្ថលេខា */
         .attendance-table th:nth-child(11), .attendance-table td:nth-child(11) { width: 80px; } /* ហត្ថលេខា */
         .attendance-table th:nth-child(12), .attendance-table td:nth-child(12) { width: 80px; } /* ហត្ថលេខា */
-        .attendance-table th:nth-child(13), .attendance-table td:nth-child(13) { width: 50px; } /* ហត្ថលេខា */
-        .attendance-table th:nth-child(14), .attendance-table td:nth-child(14) { width: 15px; } /* ច្ប */
-        .attendance-table th:nth-child(15), .attendance-table td:nth-child(15) { width: 15px; } /* អច្ប */
-        .attendance-table th:nth-child(16), .attendance-table td:nth-child(16) { width: 35px; } /* ផ្សេងៗ */
+        .attendance-table th:nth-child(13), .attendance-table td:nth-child(13) { width: 15px; } /* ច្ប */
+        .attendance-table th:nth-child(14), .attendance-table td:nth-child(14) { width: 15px; } /* អច្ប */
+        .attendance-table th:nth-child(15), .attendance-table td:nth-child(15) { width: 35px; } /* ផ្សេងៗ */
         
         /* កែសម្រួលពណ៌ប្រផេះសម្រាប់ម៉ោងទំនេរ */
         .free-slot { background-color: #d1d1d1 !important; } 
@@ -206,13 +208,14 @@
                 <div class="school-input-group"></div>
                     <button class="btn-clear" onclick="clearAllData()">🗑️ លុបទាំងអស់</button> 
                     <button class="btn-print" onclick="window.print()">🖨️ បោះពុម្ព</button>
-                    <select id="schoolName" onchange="saveMetaData()" style="width: 180px; font-size: 12px; border: 1px solid #e74c3c;">
+                    <select id="schoolName" onchange="saveMetaData()" style="width: 140px; font-size: 11px; border: 1px solid #e74c3c;">
                     <option value="">សូមជ្រើសរើស........</option>
                     <option value="អនុវិទ្យាល័យខ្ញុំបាទ/នាងខ្ញុំ">អនុវិទ្យាល័យខ្ញុំបាទ/នាងខ្ញុំ</option>
                     <option value="វិទ្យាល័យខ្ញុំបាទ/នាងខ្ញុំ">វិទ្យាល័យខ្ញុំបាទ/នាងខ្ញុំ</option>
-                    <input type="text" id="directorName" placeholder="ឈ្មោះនាយកសាលា" oninput="saveMetaData()" style="width: 120px; font-size: 12px;border: 1px solid #e74c3c;">
-                    <input type="text" id="chanDate" placeholder="ថ្ងៃចន្ទគតិ..." oninput="saveMetaData()" style="width: 320px; font-size: 12px;border: 1px solid #e74c3c;">
-                    <input type="text" id="soriyaDate" placeholder="ថ្ងៃសូរិយគតិ..." oninput="saveMetaData()" style="width: 235px; font-size: 12px;border: 1px solid #e74c3c;">
+                    <input type="text" id="ProvinceName" placeholder="ឈ្មោះខេត្ដៈឧ.ប/ជ" oninput="saveMetaData()" style="width: 80px; font-size: 11px;border: 1px solid #e74c3c;">
+                    <input type="text" id="directorName" placeholder="ឈ្មោះនាយក" oninput="saveMetaData()" style="width: 80px; font-size: 11px;border: 1px solid #e74c3c;">
+                    <input type="text" id="chanDate" placeholder="ថ្ងៃចន្ទគតិ..." oninput="saveMetaData()" style="width: 300px; font-size: 12px;border: 1px solid #e74c3c;">
+                    <input type="text" id="soriyaDate" placeholder="ថ្ងៃសូរិយគតិ..." oninput="saveMetaData()" style="width: 215px; font-size: 12px;border: 1px solid #e74c3c;">
                 
                 <div class="school-input-group">
                     
@@ -327,6 +330,26 @@
     const allSlots = [...morningSlots, ...afternoonSlots];
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const daysKh = ["ចន្ទ", "អង្គារ", "ពុធ", "ព្រហស្បតិ៍", "សុក្រ", "សៅរ៍"];
+    // មុខងារចាប់យកកាលបរិច្ឆេទ និងបូកបន្ថែមថ្ងៃទៅតាមថ្ងៃក្នុងសប្ដាហ៍
+function getKhmerDate(offsetDays = 0) {
+    const now = new Date();
+    // បង្កើតកាលបរិច្ឆេទថ្មីដោយយោងតាមថ្ងៃបច្ចុប្បន្ន + ចំនួនថ្ងៃបន្ថែម
+    const targetDate = new Date(now);
+    targetDate.setDate(now.getDate() + offsetDays);
+
+    const daysKh = ["អាទិត្យ", "ចន្ទ", "អង្គារ", "ពុធ", "ព្រហស្បតិ៍", "សុក្រ", "សៅរ៍"];
+    const monthsKh = ["មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា", "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"];
+    const numKh = ['០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩'];
+    
+    const toKhNum = (n) => n.toString().split('').map(x => numKh[x] || x).join('');
+    
+    return {
+        dayName: daysKh[targetDate.getDay()],
+        date: toKhNum(targetDate.getDate()),
+        month: monthsKh[targetDate.getMonth()],
+        year: toKhNum(targetDate.getFullYear())
+    };
+}
     // ពណ៌សម្រាប់ប្រធានបទ និងធាតុសំខាន់ៗនៅលើទំព័រ
     const colorList = ["#c0392b", "#2980b9", "#27ae60", "#8e44ad", "#f39c12", "#2c3e50", "#16a085", "#d35400", "#1A16CC", "#2ecc71", "#3498db", "#9b59b6", "#e74c3c", "#f1c40f", "#1abc9c"];
     // កាលវិភាគសម្រាប់បង្ហាញតាមថ្ងៃ
@@ -545,11 +568,12 @@ function renderMasterSchedule() {
         
         html += `</div></div></div>`;
         outer.innerHTML = html;
-    }
-    // បង្កើតតារាងវត្តមានសម្រាប់គ្រូទាំងអស់ក្នុងមួយសប្តាហ៍
+    }    // បង្កើតតារាងវត្តមានសម្រាប់គ្រូទាំងអស់ក្នុងមួយសប្តាហ៍
     function renderAttendanceTable() {
         const container = document.getElementById('all-days-attendance-container');
         container.innerHTML = "";
+        const now = new Date();
+        const currentDayIndex = now.getDay(); // 0 = អាទិត្យ, 1 = ចន្ទ...
         const teachers = [...new Set(entries.map(e => e.name))];
         if (teachers.length === 0) return;
         const dirName = document.getElementById('directorName').value || "............................";
@@ -557,6 +581,11 @@ function renderMasterSchedule() {
         const soriya = document.getElementById('soriyaDate').value || "";
         // សម្រាប់គ្រប់ថ្ងៃ បង្ហាញតារាងវត្តមានសម្រាប់គ្រូទាំងអស់ និងម៉ោងបង្រៀននៅពេលណាខ្លះក្នុងមួយសប្តាហ៍
         days.forEach((day, index) => {
+            // គណនាគម្លាតថ្ងៃ (ឧទាហរណ៍៖ បើថ្ងៃនេះថ្ងៃចន្ទ(1) ហើយចង់បង្ហាញថ្ងៃពុធ(3) គឺត្រូវបូក 2 ថ្ងៃ)
+        const dayInWeekIndex = index + 1; // ចន្ទ=1, អង្គារ=2...
+        const offset = dayInWeekIndex - currentDayIndex;
+        
+        const kDate = getKhmerDate(offset); // ហៅកាលបរិច្ឆេទដែលបានគណនារួច
             
             const daySection = document.createElement('div');
             daySection.className = "attendance-section";
@@ -567,13 +596,13 @@ function renderMasterSchedule() {
                     <div style="font-family: 'Khmer OS Muol Light'; font-size: 11px;"></div>                                        </div>ជាតិ សាសនា ព្រះមហាក្សត្រ</div></div>
                 <div style="font-size: 12px; margin-top: -12px;">~~~~~</div>
                 </div>
-                <div style="text-align: center; width: 35%;"><div style="font-size: 11px; margin-top: 1px;"><div style="width: 25%; text-align: center;">
-                    <div style="font-family: 'Khmer OS Muol Light'; font-size: 11px;"></div></div>ក្រសួងអប់រំយុវជន និងកីឡាខេត្ដ......................</div></div>
-                <div style="text-align: center; width: 35%;"><div style="font-size: 11px; margin-top: 1px;"><div style="width: 25%; text-align: center;">
+                <div style="text-align: left; width: 45%;"><div style="font-size: 11px; margin-top: 1px;"><div style="width: 25%; text-align: left;">
+                    <div style="font-family: 'Khmer OS Muol Light'; font-size: 11px;"></div></div>ក្រសួងអប់រំយុវជន និងកីឡារាជធានី/ខេត្ដ ${document.getElementById('ProvinceName').value || "............................"}</div></div>
+                <div style="text-align: left; width: 35%;"><div style="font-size: 11px; margin-top: 1px;"><div style="width: 25%; text-align: left;">
                     <div style="font-family: 'Khmer OS Muol Light'; font-size: 9px;"></div></div>អង្គភាព៖ ${document.getElementById('schoolName').value || "............................"}</div></div>
             </div>
                 <div style="font-size: 12px; margin-top: 1px;">បញ្ជីសម្រង់វត្តមានប្រចាំថ្ងៃរបស់មន្ត្រីរាជការស៊ីវិលក្នុង ${document.getElementById('schoolName').value || "............................"}<br>
-                <div style="font-size: 12px; margin-top: 1px;">ថ្ងៃ${daysKh[index]} ទី...........ខែ....................ឆ្នាំ ២០.........</div>
+                <div style="font-size: 12px; margin-top: 1px;">ថ្ងៃ${daysKh[index]} ទី..${kDate.date}..ខែ..${kDate.month}..ឆ្នាំ..${kDate.year}..</div>
             </div>
             <div style="font-size: 10px; margin-top: -18px;"></h3><table class="attendance-table"><thead><tr><th rowspan="2">ល.រ</th><th rowspan="2" style="width:100px;">នាម-គោត្តនាម</th><th rowspan="2">ភេទ</th><th rowspan="2">តួនាទី</th><th colspan="5">ពេលព្រឹក</th><th colspan="4">ពេលល្ងាច</th><th colspan="2">អវត្ដមាន</th><th rowspan="2">ផ្សេងៗ</th></tr><tr><th>១</th><th>២</th><th>៣</th><th>៤</th><th>៥</th><th>៦</th><th>៧</th><th>៨</th><th>៩</th><th style="width: 20px;">ច្ប</th>  <th style="width: 20px;">អច្ប</th></tr></thead><tbody>`;
                     
@@ -583,7 +612,7 @@ function renderMasterSchedule() {
                 const role = tInfo.role || "";
                 const isTeacher = role.includes("គ្រូ");
                 html += `<tr>
-                <td>${i + 1}</td>
+                <td>${i + 1}</td>  
                 <td style="text-align:left; padding-left:5px;">${tName}</td>
                 <td>${tInfo.gender}</td>
                 <td>${role}</td>`;
@@ -616,18 +645,18 @@ function renderMasterSchedule() {
                         <div class="sig-name" style="margin-top: 20px; font-family: 'Khmer OS Muol Light'; font-size: 12px;">${dirName}</div>
                 
                     </div>
-                    <div style="width: 30%; text-align: center;">
+                    <div style="width: 30%; text-align: left;">
                         <div style="font-size: 12px; margin-top: -3px;">
-                        -សរុបអវត្ដមាន :.......................នាក់<br>
-                        -មានច្បាប់ :.............................នាក់<br>
-                        -ទំនេរគ្មានបៀរវត្ស :...................នាក់<br>
-                        -ផ្សេងៗ :.................................នាក់</div>
+                        -សរុបអវត្ដមាន :..................នាក់<br>
+                        -មានច្បាប់ :........................នាក់<br>
+                        -ទំនេរគ្មានបៀរវត្ស :..............នាក់<br>
+                        -ផ្សេងៗ :............................នាក់</div>
                     </div>
                     
                     <div class="footer-sig-box" style="text-align: center; width: 45%;">
                         <div class="sig-date-area" style="font-size: 10px;">${chan}<br>${soriya}</div>
                         <div class="sig-title" style="font-family: 'Khmer OS Muol Light'; font-size: 11px; margin-top: -5px;">អ្នកធ្វើបញ្ជី</div>
-                        <div class="sig-name" style="margin-top: 20px; font-family: 'Khmer OS Muol Light'; font-size: 11px;">............................</div>
+                        <div class="sig-name" style="margin-top: 20px; font-family: 'Khmer OS Muol Light'; font-size: 11px;"</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;........................</div>
                     </div>
                 </div>
             `;
@@ -667,7 +696,7 @@ function renderMasterSchedule() {
                 html += `</tr>`;
             });
             // បន្ថែមជួរថ្មីសម្រាប់បង្ហាញពេលសម្រាក និងពេលរសៀល
-            html += `<tr><td class="afternoon-break">12:00 - 13:00</td><td colspan="6" class="afternoon-break">សម្រាក / ពេលរសៀល</td></tr>`;
+            html += `<tr><td class="afternoon-break">11:00 - 13:00</td><td colspan="6" class="afternoon-break">សម្រាក / ពេលរសៀល</td></tr>`;
             // បន្ថែមជួរថ្មីសម្រាប់បង្ហាញម៉ោងបង្រៀននៅពេលរសៀល
             afternoonSlots.forEach(slot => {
                 html += `<tr><td style="font-weight:bold; background:#f9f9f9;">${slot}</td>`;
