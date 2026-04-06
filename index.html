@@ -219,6 +219,7 @@
                     <input type="text" id="soriyaDate" placeholder="ថ្ងៃសូរិយគតិ..." oninput="saveMetaData()" style="width: 215px; font-size: 12px;border: 1px solid #e74c3c;">
                     <label style="font-size: 12px; color: #0b08c6; font-family: 'Khmer OS Content';">ជ្រើសរើសក្នុងប្រតិទិនថ្ងៃចាប់ផ្តើម </label><label style="font-size: 11px; color: #d60b0b; font-family: 'Khmer OS Content';">(ថ្ងៃចន្ទ) </label><label style="font-size: 12px; color: #0b08c6; font-family: 'Khmer OS Content';">សម្រាប់បញ្ជីវត្ដមានតាមថ្ងៃ៖ </label>
                     <input type="date" id="startDate" onchange="renderAttendanceTable()" style="font-size: 12px; color: #e74c3c; border: 1px solid #070ac1; border-radius: 3px; padding: 3px;">
+                    <input type="text" id="BookkeeperName" placeholder="ឈ្មោះអ្នកធ្វើបញ្ជី" oninput="saveMetaData()" style="width: 80px; font-size: 11px;border: 1px solid #070ac1;">
                 <div class="school-input-group">
                     
                 </div>
@@ -361,6 +362,7 @@ function getKhmerDate(offsetDays = 0 , baseDate = new Date()) {
         document.getElementById('soriyaDate').value = localStorage.getItem('soriyaDate') || "";
         document.getElementById('directorName').value = localStorage.getItem('directorName') || "";
         document.getElementById('ProvinceName').value = localStorage.getItem('ProvinceName') || "";
+        document.getElementById('BookkeeperName').value = localStorage.getItem('BookkeeperName') || "";
         renderLists(); 
         renderAll();
     };
@@ -391,6 +393,7 @@ function getKhmerDate(offsetDays = 0 , baseDate = new Date()) {
         localStorage.setItem('soriyaDate', document.getElementById('soriyaDate').value);
         localStorage.setItem('directorName', document.getElementById('directorName').value);
         localStorage.setItem('ProvinceName', document.getElementById('ProvinceName').value);
+        localStorage.setItem('BookkeeperName', document.getElementById('BookkeeperName').value);
         // ប្តូរពណ៌ស៊ុមដើម្បីបញ្ជាក់ថាបានជ្រើសរើសរួច
         document.getElementById('schoolName').style.borderColor = sch ? "#bdc3c7" : "#e74c3c";
         renderAll();
@@ -659,7 +662,7 @@ function renderMasterSchedule() {
                     <div class="footer-sig-box" style="text-align: center; width: 45%;">
                         <div class="sig-date-area" style="font-size: 10px;">${chan}<br>${soriya}</div>
                         <div class="sig-title" style="font-family: 'Khmer OS Muol Light'; font-size: 11px; margin-top: -5px;">អ្នកធ្វើបញ្ជី</div>
-                        <div class="sig-name" style="margin-top: 20px; font-family: 'Khmer OS Muol Light'; font-size: 11px;"</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;........................</div>
+                        <div class="sig-name" style="margin-top: 20px; font-family: 'Khmer OS Muol Light'; font-size: 11px;"</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${document.getElementById('BookkeeperName').value || "............................"}</div>
                     </div>
                 </div>
             `;
@@ -723,7 +726,7 @@ function renderMasterSchedule() {
             html += `</div></div>`;
             // បន្ថែមផ្នែកហត្ថលេខា និងកាលបរិច្ឆេទនៅចុងទំព័រ
             const inCharge = classEntries.find(e => e.role.includes("បន្ទុក")); const sigN = inCharge ? inCharge.name : "............................";
-            html += `<div class="signature-section"><div class="sig-box"><div class="sig-title">បានឃើញ និងឯកភាព<br>នាយកសាលា</div><div class="sig-name">${dirName}</div></div><div class="sig-box"><div class="sig-date-area">${chan}<br>${soriya}</div><div class="sig-title">គ្រូបន្ទុកថ្នាក់ ${cName}</div><div class="sig-name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${sigN}</div>`;
+            html += `<div class="signature-section"><div class="sig-box"><div class="sig-title">បានឃើញ និងឯកភាព<br>នាយកសាលា</div><div class="sig-name">${dirName}</div></div><div class="sig-box"><div class="sig-date-area">${chan}<br>${soriya}</div><div class="sig-title">គ្រូបន្ទុកថ្នាក់ ${cName}</div><div class="sig-name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${sigN}</div>`;
             classDiv.innerHTML = html; container.appendChild(classDiv);
         });
     }
