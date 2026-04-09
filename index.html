@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ប្រព័ន្ធគ្រប់គ្រងកាលវិភាគសិក្សា - សរសេរដោយ៖លោកគ្រូ ឆាត វិឆៃ</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Khmer+OS+Content&family=Khmer+OS+Muol+Light&display=swap');
         /* កំណត់ទំហំ និងស្ពានសម្រាប់ការបោះពុម្ព */
@@ -220,6 +221,9 @@
                     <label style="font-size: 12px; color: #0b08c6; font-family: 'Khmer OS Content';">ជ្រើសរើសក្នុងប្រតិទិនថ្ងៃចាប់ផ្តើម </label><label style="font-size: 11px; color: #d60b0b; font-family: 'Khmer OS Content';">(ថ្ងៃចន្ទ) </label><label style="font-size: 12px; color: #0b08c6; font-family: 'Khmer OS Content';">សម្រាប់បញ្ជីវត្ដមានតាមថ្ងៃ៖ </label>
                     <input type="date" id="startDate" onchange="renderAttendanceTable()" style="font-size: 12px; color: #e74c3c; border: 1px solid #070ac1; border-radius: 3px; padding: 3px;">
                     <input type="text" id="BookkeeperName" placeholder="ឈ្មោះអ្នកធ្វើបញ្ជី" oninput="saveMetaData()" style="width: 80px; font-size: 11px;border: 1px solid #070ac1;">
+                    <button class="btn-print" style="background-color: #27ae60; font-size: 12px; padding: 3px 10px;" onclick="exportToExcel()">📥 ទាញចេញជា Excel</button>
+                    <button class="btn-print" style="background-color: #8e44ad; font-size: 12px; padding: 3px 10px;" onclick="document.getElementById('importExcel').click()">📤 បញ្ចូលពី Excel</button>
+                    <input type="file" id="importExcel" style="display:none" accept=".xlsx, .xls" onchange="importFromExcel(event)">
                 <div class="school-input-group">
                     
                 </div>
@@ -765,7 +769,65 @@ function renderMasterSchedule() {
             });
         });
     }
-     
+function exportToExcel() {
+    if (entries.length === 0) return alert("គ្មានទិន្នន័យសម្រាប់ទាញចេញទេ!");
+    
+    // រៀបចំទិន្នន័យឱ្យមានសណ្តាប់ធ្នាប់សម្រាប់ Excel
+    const dataForExcel = entries.map(e => ({
+        "ឈ្មោះគ្រូ": e.name,
+        "ភេទ": e.gender,
+        "ទូរស័ព្ទ": e.phone,
+        "តួនាទី": e.role,
+        "ថ្ងៃ": e.day,
+        "ម៉ោង": e.time,
+        "ថ្នាក់": e.className,
+        "មុខវិជ្ជា": e.sub
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(dataForExcel);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "កាលវិភាគ");
+    
+    // ទាញយក File
+    XLSX.writeFile(workbook, "កាលវិភាគសិក្សា.xlsx");
+}
+function importFromExcel(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+        if (confirm("តើអ្នកចង់បញ្ចូលទិន្នន័យចំនួន " + jsonData.length + " ជួរនេះមែនទេ?")) {
+            const newEntries = jsonData.map(item => ({
+                id: Date.now() + Math.random(), // បង្កើត ID ថ្មីមិនឱ្យជាន់គ្នា
+                name: item["ឈ្មោះគ្រូ"] || "",
+                gender: item["ភេទ"] || "",
+                phone: item["ទូរស័ព្ទ"] || "",
+                role: item["តួនាទី"] || "",
+                day: item["ថ្ងៃ"] || "Monday",
+                time: item["ម៉ោង"] || "07:00 - 08:00",
+                className: item["ថ្នាក់"] || "",
+                sub: item["មុខវិជ្ជា"] || ""
+            }));
+
+            // បន្ថែមចូលក្នុង entries ចាស់ ឬជំនួសថ្មី
+            entries = [...entries, ...newEntries];
+            localStorage.setItem('teacherTasks', JSON.stringify(entries));
+            
+            // បង្ហាញទិន្នន័យឡើងវិញ
+            renderLists();
+            renderAll();
+            alert("បញ្ចូលទិន្នន័យជោគជ័យ!");
+        }
+    };
+    reader.readAsArrayBuffer(file);
+}
     // មុខងារសម្រាប់លុបការបែងចែកភារកិច្ច
     function delRow(id) { 
         if(confirm("តើអ្នកចង់លុបទិន្នន័យលោកគ្រូ/អ្នកគ្រូម្នាក់នេះមែនទេ?")) { 
