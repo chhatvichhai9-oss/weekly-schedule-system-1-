@@ -477,9 +477,9 @@ function getKhmerDate(offsetDays = 0 , baseDate = new Date()) {
             const container = document.getElementById(day); 
             const dayEntries = entries.filter(e => e.day === day).sort((a,b) => allSlots.indexOf(a.time) - allSlots.indexOf(b.time));
             // បង្កើតតារាងកាលវិភាគសម្រាប់ថ្ងៃនេះ និងប៊ូតុងសកម្មភាពកែសម្រួល និងលុប
-            let html = `<table><thead><tr><th>ម៉ោង</th><th>ឈ្មោះគ្រូ</th><th>ភេទ</th><th>ថ្នាក់</th><th>មុខវិជ្ជា</th><th>សកម្មភាព</th></tr></thead><tbody>`;
+            let html = `<table><thead><tr><th>ម៉ោង</th><th>ឈ្មោះគ្រូ</th><th>ភេទ</th><th>តួនាទី</th><th>លេខទូរស័ព្ទ</th><th>ថ្នាក់</th><th>មុខវិជ្ជា</th><th>សកម្មភាព</th></tr></thead><tbody>`;
             dayEntries.forEach(m => {
-                html += `<tr><td>${m.time}</td><td>${m.name}</td><td>${m.gender}</td><td>${m.className}</td><td>${m.sub}</td>
+                html += `<tr><td>${m.time}</td><td>${m.name}</td><td>${m.gender}</td><td>${m.role || ""}</td>   <td>${m.phone || ""}</td><td>${m.className}</td><td>${m.sub}</td>
                     <td><button style="background:#f39c12;color:white;border:none;padding:2px 5px;cursor:pointer" onclick="editRow(${m.id})">កែ</button>
                     <button style="background:#e74c3c;color:white;border:none;padding:2px 5px;cursor:pointer" onclick="delRow(${m.id})">លុប</button></td></tr>`;
             });
@@ -763,7 +763,7 @@ function renderMasterSchedule() {
             // បង្កើតតារាងកាលវិភាគសម្រាប់ថ្ងៃនេះ និងប៊ូតុងសកម្មភាពកែសម្រួល និងលុប
             dayEntries.forEach(m => {
                 const row = tbody.insertRow();
-                row.innerHTML = `<td>${m.time}</td><td>${m.name}</td><td>${m.gender || "---"}</td><td>${m.className}</td><td>${m.sub}</td>
+                row.innerHTML = `<td>${m.time}</td><td>${m.name}</td><td>${m.gender || "---"}</td><td>${m.role || ""}</td>   <td>${m.phone || ""}</td><td>${m.className}</td><td>${m.sub}</td>
                     <td><button style="background:#f39c12;color:white;padding:2px 5px;border:none;border-radius:3px;cursor:pointer" onclick="editRow(${m.id})">កែ</button>
                     <button style="background:#e74c3c;color:white;padding:2px 5px;border:none;border-radius:3px;cursor:pointer" onclick="delRow(${m.id})">លុប</button></td>`;
             });
