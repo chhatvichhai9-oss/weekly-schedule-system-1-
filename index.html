@@ -485,20 +485,6 @@ function getKhmerDate(offsetDays = 0 , baseDate = new Date()) {
             });
             // បន្ថែមជួរថ្មីសម្រាប់បង្ហាញកាលបរិច្ឆេទ និងហត្ថលេខា នៅចុងតារាង
             html += `</tbody></table>`;
-            // បន្ថែមផ្នែកហត្ថលេខា និងកាលបរិច្ឆេទនៅចុងទំព័រ
-            html += `
-                <div class="day-footer-signature">
-                    <div class="footer-sig-box">
-                        <div class="sig-title">បានឃើញ និងឯកភាព<br>នាយកសាលា</div>
-                        <div class="sig-name" style="margin-top:50px;">${dir}</div>
-                    </div>
-                    <div class="footer-sig-box">
-                        <div class="sig-date-area">${chan}<br>${soriya}</div>
-                        <div class="sig-title">អ្នករៀបចំ</div>
-                        <div class="sig-name" style="margin-top:50px;">............................</div>
-                    </div>
-                </div>
-            `;
             // បង្ហាញកាលវិភាគសម្រាប់ថ្ងៃនេះនៅលើទំព័រ
             container.innerHTML = html;
         });
@@ -749,25 +735,6 @@ function renderMasterSchedule() {
             document.getElementById('subjectSelect').value = item.sub;
             document.getElementById('addBtn').innerText = "✓ កែសម្រួល";
         }
-    }
-    // មុខងារសម្រាប់លុបការបែងចែកភារកិច្ច
-    function renderLists() {
-        days.forEach(day => {
-            const tbody = document.getElementById(`list-${day}`); 
-            tbody.innerHTML = "";
-            
-            // បន្ថែមមុខងារ Sort តាមពេលវេលាសម្រាប់តារាងនៃថ្ងៃនីមួយៗ
-            const dayEntries = entries.filter(e => e.day === day).sort((a, b) => {
-                return allSlots.indexOf(a.time) - allSlots.indexOf(b.time);
-            });
-            // បង្កើតតារាងកាលវិភាគសម្រាប់ថ្ងៃនេះ និងប៊ូតុងសកម្មភាពកែសម្រួល និងលុប
-            dayEntries.forEach(m => {
-                const row = tbody.insertRow();
-                row.innerHTML = `<td>${m.time}</td><td>${m.name}</td><td>${m.gender || "---"}</td><td>${m.role || ""}</td>   <td>${m.phone || ""}</td><td>${m.className}</td><td>${m.sub}</td>
-                    <td><button style="background:#f39c12;color:white;padding:2px 5px;border:none;border-radius:3px;cursor:pointer" onclick="editRow(${m.id})">កែ</button>
-                    <button style="background:#e74c3c;color:white;padding:2px 5px;border:none;border-radius:3px;cursor:pointer" onclick="delRow(${m.id})">លុប</button></td>`;
-            });
-        });
     }
 function exportToExcel() {
     if (entries.length === 0) return alert("គ្មានទិន្នន័យសម្រាប់ទាញចេញទេ!");
