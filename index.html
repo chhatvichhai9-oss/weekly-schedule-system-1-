@@ -159,6 +159,9 @@
         .summary-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; font-size: 9.5px; }
         .summary-item { background: white; padding: 6px; border-radius: 4px; border-left: 3px solid var(--main-color); box-shadow: 1px 1px 3px rgba(0,0,0,0.05); line-height: 1.4; }
         .summary-contact { color: #e67e22; font-weight: bold; font-size: 9px; border-top: 1px dotted #ccc; margin-top: 2px; display: block; }
+        .summary-item {
+    border-left: 2px solid var(--main-color) !important; /* បន្ថែមបន្ទាត់ពណ៌ខាងឆ្វេង */
+}
         .note-section {
     margin-top: 30px;
     padding: 15px;
@@ -547,19 +550,24 @@ function renderMasterSchedule() {
         html += `<div class="summary-section" style="margin-top:15px;"><div class="summary-header">បញ្ជីសរុបម៉ោងបង្រៀនរបស់គ្រូ (Teacher Teaching Hours)</div><div class="summary-grid">`;
         
         for (let tName in teacherStats) {
-            // បម្លែង Object មុខវិជ្ជា ទៅជាអក្សរសម្រាប់បង្ហាញ (ឧ. គណិតវិទ្យា: ៥ម៉ោង, រូបវិទ្យា: ២ម៉ោង)
-            const subListText = Object.entries(teacherStats[tName].subDetail)
-                .map(([subName, count]) => `${subName}: ${count}ម៉ោង`)
-                .join(', ');
+    const subListText = Object.entries(teacherStats[tName].subDetail)
+        .map(([subName, count]) => `${subName}: ${count}ម៉ោង`).join(', ');
 
-            html += `
-                <div class="summary-item">
-                    <strong>${tName} (${teacherStats[tName].gender})</strong><br>
-                    <span style="color:red; font-weight:bold;">សរុប៖ ${teacherStats[tName].total} ម៉ោង</span><br>
-                    <span style="font-size:9px; color:#1a5276; font-weight:bold;">ថ្នាក់៖ ${Array.from(teacherStats[tName].classes).sort().join(', ')}</span><br>
-                    <span style="font-size:9px; color:#555;">[ ${subListText} ]</span>
-                </div>`;
-        }
+    // បង្កើតអត្ថបទបង្ហាញថ្នាក់ និងម៉ោងសរុបក្នុងថ្នាក់នោះ (ឧទាហរណ៍៖ ៩ក(៤ម៉ោង), ៨ខ(២ម៉ោង))
+    const classHourDetails = Array.from(teacherStats[tName].classes).sort().map(cName => {
+        // រាប់ចំនួនម៉ោងដែលគ្រូម្នាក់នេះ បង្រៀនក្នុងថ្នាក់នីមួយៗ
+        const hoursInClass = entries.filter(e => e.name === tName && e.className === cName).length;
+        return `${cName}(${hoursInClass}ម៉ោង)`;
+    }).join(', ');
+
+    html += `
+        <div class="summary-item" style="background:white; border:1px solid #ddd; padding:8px; border-radius:4px; box-shadow: 1px 1px 3px rgba(0,0,0,0.1);">
+            <strong style="color:#1a5276;">${tName} (${teacherStats[tName].gender})</strong><br>
+            <span style="color:red; font-weight:bold; font-size:11px;">សរុប៖ ${teacherStats[tName].total} ម៉ោង</span><br>
+            <span style="font-size:9px; color:#2c3e50; font-weight:bold;">ថ្នាក់៖ ${classHourDetails}</span><br>
+            <span style="font-size:9px; color:#555; font-style:italic;">[ ${subListText} ]</span>
+        </div>`;
+}
         
         html += `</div></div></div>`;
         outer.innerHTML = html;
